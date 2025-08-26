@@ -1,0 +1,17 @@
+Version 1.2
+2014 11 30
+Added internationalization.
+Added the options to change number of bells
+
+Version 1.1.5
+Fix bugs to cause BellOfMindfulness to not run at first install for some users.
+Fix bugs to display notification when bell in not enable in first run.
+
+Version 1.1.2
+Update icons
+
+Version 1.1
+Updated with option to turn bell on and off.
+
+Version 1
+Brand new Bell of Mindfulness.

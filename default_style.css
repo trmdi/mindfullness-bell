@@ -1,0 +1,262 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body {
+    margin:0px;
+    color: #000000;
+    font-family: Helvetica, Arial, san-serif;
+    width:500px;
+    background-color:rgb(245, 245, 220);
+}
+p {
+		margin-top: 0px;
+		margin-bottom: 0px;
+		/*text-align: justify;*/
+		text-indent: 25px;
+		font-size:14px;
+}
+h1{
+	font-size:20px;
+}
+li { 
+		margin-top: 6px;
+		margin-bottom: 6px;
+
+}
+a {     color:#0099cc;
+}
+a:visited {     
+		color:#0099cc;
+		
+}
+pre{
+	font-family:"Courier New", Courier, monospace;
+	font-size:12px;
+}
+
+/***************************************************
+	Form Items
+ ***************************************************/
+#form_layout{
+		width:500px;
+		table-layout:fixed;
+		right:0px;
+}
+#form_layout_row{
+		padding-bottom:15px;
+}
+#form_layout_label{
+		padding-right:5px;
+		width:100px;
+}
+#form_layout_item{
+		padding-bottom:5px;
+		padding-top:5px;
+}
+textarea{
+		background:#F8F8F8;
+		border:#AAAAAA 1px solid;
+		font-size: 12px;
+		height: 150px;
+		font-family:Helvetica, Arial, san-serif;
+		width:400px;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top:5px;
+		padding-bottom:5px;
+		/*cursor: s-resize;*/
+}
+
+input{
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top:2px;
+		padding-bottom:2px;
+		/*cursor: s-resize;*/
+}
+select{
+		background:#F8F8F8;
+		border:#AAAAAA 1px solid;
+		font-size: 12px;
+		font-family:Helvetica, Arial, san-serif;
+		vertical-align:middle;
+		text-align:left;
+        border-radius: 3px;
+}
+option{
+		font-size: 12px;
+		font-family:Helvetica, Arial, san-serif;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top:2px;
+		padding-bottom:2px;
+		vertical-align:middle;
+		text-align:left;
+        border-radius: 3px;
+}
+
+input.timeleft {
+	font-size:14px;
+	font-weight:bold;
+	color: #000000;
+	border: 2px solid #000000;
+	text-align: center;
+	background-color:rgb(245, 245, 220);
+}
+input.invitebell,input.donate {
+	font-size:14px;
+	font-weight:bold;
+	color: #000000;
+	border: 2px double #000000;
+	text-align: center;
+	background-color:#fadf99;
+	padding:4px;
+}
+select.timespace,select.numOfBells {
+	font-size:14px;
+	font-weight:bold;
+	color: #000000;
+	border: 1px solid #000000;
+	text-align: left;
+/*	width:100px;*/
+	padding:0px;
+	margin:0px;
+	background-color:rgb(245, 245, 220);
+}
+select.numOfBells {
+	width:40px;
+}
+input.volume {
+	font-size:14px;
+	font-weight:bold;
+	color: #000000;
+	border: 1px solid #000000;
+	text-align: center;
+	width: 100px;
+	background-color:rgb(245, 245, 220);
+}
+input.volume_txt {
+	font-size:14px;
+	font-weight:bold;
+	color: #000000;
+	border: none;/*2px solid #000000;*/
+	vertical-align:top;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	background-color:rgb(245, 245, 220);
+}
+table.BellTable {
+	padding: 0px;
+}
+table.BellTable td {
+	padding: 0px;
+	margin:0px;
+}
+/*****************************************************
+ *  the on-off switch
+ *****************************************************/
+.onoffswitch {
+    position: relative; width: 80px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #000000; border-radius: 0px;
+	padding: 0px;
+	
+}
+.onoffswitch-inner {
+    width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    float: left; width: 50%; padding: 4px; 
+    font-size: 14px; color: white; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "__MSG_on__";
+    padding-left: 10px;
+    background-color: #FADF99; color: #000000;
+	text-align: left;
+}
+.onoffswitch-inner:after {
+    content: "__MSG_off__";
+    padding-right: 10px;
+    background-color: #FADF99; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    width: 14px; margin: 8px;
+    background: #A1A1A1;
+    border: 2px solid #000000; border-radius: 0px;
+    position: absolute; top: 0; bottom: 0; right: 46px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+    background-color: #FFFADC; 
+}
+
+.onLayer{
+	vertical-align:middle;
+	-moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.offLayer{
+	background-color:#666;
+	color: #fff;
+	vertical-align:middle;
+	-moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.DonationLayer{
+    width: 490px;
+/*    height: 100%;*/
+    display: block;
+    text-align: left;
+    position: relative;
+    font-size: 0px;
+    vertical-align: middle;
+    height: 20px;
+    overflow: hidden;
+    -webkit-transition-property: all;
+    -webkit-transition-duration: 0.5s;
+    -webkit-transition-timing-function: linear;
+    -webkit-transition-delay: 0s;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: linear;
+    transition-delay: 0s;
+}
+.DonationLayer table{
+    background-color:#fcc;
+    margin:0px;
+}
+.DonationTextContainer{
+    text-align: left;
+    vertical-align: top;
+    width: 300px;
+}
+.DonationButtonDiv{
+/*    width: 100px;*/
+    vertical-align: middle;
+    text-align: right;
+}
+.DonationHidingButton{
+    display: block;
+    position: relative;
+    width:20px;
+    height: 20px;
+    background-image: url('images/plus.gif');
+    background-size: contain;
+}

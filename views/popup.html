@@ -1,0 +1,143 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="../default_style.css" rel="stylesheet" type="text/css">
+    <title>:: Bell of Mindfulness ::</title>
+</head>
+
+<body>
+    <table width="100%" border="0" cellspacing="5" cellpadding="0" id='BellTable' class='BellTable'>
+        <tr>
+            <td colspan="2" align="center">
+                <h1 align="center" id="bellTitle">:: Bell of Mindfulness ::</h1>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <div class="onoffswitch" id="isBellEnabledSwitchContainer">
+                    <input type="checkbox" name="isBellEnabledSwitch" class="onoffswitch-checkbox" id="isBellEnabledSwitch" title="Click to turn bell off or on." checked>
+                    <label class="onoffswitch-label" for="isBellEnabledSwitch">
+                        <div class="onoffswitch-inner"></div>
+                        <div class="onoffswitch-switch"></div>
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <div align="center" class="onLayer" id="onLayer">
+                    <table width="100%" border="0" cellspacing="5" cellpadding="0" id='BellTable' class='BellTable'>
+                        <tr>
+                            <td width="50%">
+                                <p align="right" id="RemainingTime">Remaining time:</p>
+                            </td>
+                            <td width="50%">
+                                <input name="timeleft" type="text" class="timeleft" id="timeleft" value="00:00" size="5" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%">
+                                <p align="right" id="TimeBetweenBells">Time between bells:</p>
+                            </td>
+                            <td width="50%">
+                                <select name="timespace" size="1" class='timespace' id="timespace">
+                                    <option value="5" id="_5min_">5 min</option>
+                                    <option value="10" id="_10min_">10 min</option>
+                                    <option value="15" id="_15min_">15 min</option>
+                                    <option value="20" id="_20min_" selected>20 min</option>
+                                    <option value="30" id="_30min_">30 min</option>
+                                    <option value="45" id="_45min_">45 min</option>
+                                    <option value="60" id="_60min_">1 hour</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%">
+                                <p align="right" id="numOfBellsLabel">Number of bells:</p>
+                            </td>
+                            <td width="50%">
+                                <select name="numOfBells" size="1" class='numOfBells' id="numOfBells">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3" selected>3</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%">
+                                <p align="right" id="VolumeLabel">Volume:</p>
+                            </td>
+                            <td width="50%">
+                                <input name="volume" type="range" class="volume" id="volume" value="30" size="5">
+                                <input name="volume_txt" type="text" class="volume_txt" id="volume_txt" value="30%" size="3" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div align="center">
+                                    <input type="submit" name="invitebell" id="invitebell" class='invitebell' value="Thỉnh Chuông/Invite the Bell">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div align="center" class="offLayer" id="offLayer">
+                    <table width="100%" height="100%" border="0" cellspacing="5" cellpadding="0" id='BellTable' class='BellTable' style="vertical-align:middle;">
+                        <tr>
+                            <td height="100%" valign="middle" style="vertical-align:middle;">
+                                <div align="center" style="color:rgb(245, 245, 220); font-size:30px;" id="BellIsOff">Bell is disabled.</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div align="center">
+                    <img src="../images/thichnhathanh-bell.jpg" width="200" height="175" id="thichNhatHanh">
+                    <p align="justify" id="BellOfMindfulnessPurpose">In the busy time of our daily life, we let our mind float away to many distractions. We forget about our body, our breath, and our mind; we forget about the unity of our mind and body. In order to remind us of this unification, the bell of mindfulness is meant for us to bring our mind back to our body. When we hear the sound of the bell, please stop what we are doing and take three breaths to bring our mind back to our body. Let this unification happen and be happy in the present moment.</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+                <div align="right">
+                    <p align="right" style="font-size:8px; font-style:italic; text-indent:0px;"><span id="DesignCredit">Software is designed and written by</span>  <a href="http://www.nguyensan.me" target="_new"><span id="ExtAuthor">San Nguyen</span></a>.
+                        <br/><span id="TranslateCredit"></span>
+                    </p>
+                    <p align="right" style="font-size:8px; font-style:italic; text-indent:0px;"><span id="InspirationTxt">Software is written in honor of the teachings by</span>  <a href="http://www.plumvillage.org/" target="_new"><span id="InspirationCredit">Thich Nhat Hanh</span></a>.</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <div class="DonationLayer" id="DonationLayer">
+                    <div class="DonationHidingButton"></div>
+                    <table width="100%" border="0" cellspacing="5" cellpadding="0">
+                        <tr>
+                        <td class="DonationTextContainer">
+                    <h4 style="margin:5px 0; margin-top:0;" id="DonationTextH4">Enjoy this add-on?</h4>
+                    <p align="left" style="text-indent:0;" id="DonationText">Please help support its continued development by making a small contribution.</p>
+                            </td>
+                        <td class="DonationButtonDiv">
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_new">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+<input type="submit" border="0" name="submit" title="Contribute to Bell of Mindfulness developement" value="Contribute" class="donate" id="DonationButton">
+</form>
+                        </td> 
+                            </tr>
+                        </table>
+                        </div>
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/popup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+{
+    "extName": {
+        "message": "Chuông Chánh Niệm"
+    },
+    "extDesc": {
+        "message": "A bell that reminds us to breathe and be mindful of our body and mind."
+    },
+    "extAuthor": {
+        "message": "Nguyễn San"
+    },
+    "ext_default_title": {
+        "message": "Chuông Chánh Niệm"
+    },
+    "bellTitle":{
+        "message": ":: Chuông Chánh Niệm ::"
+    },
+    "RemainingTime":{
+        "message": "Thời gian còn lại:"
+    },
+    "TimeBetweenBells":{
+        "message":"Khoản thời gian:"
+    },
+    "_5min_":{
+        "message":"5 phút"
+    },
+    "_10min_":{
+        "message":"10 phút"
+    },
+    "_15min_":{
+        "message":"15 phút"
+    },
+    "_20min_":{
+        "message":"20 phút"
+    },
+    "_30min_":{
+        "message":"30 phút"
+    },
+    "_45min_":{
+        "message":"45 phút"
+    },
+    "_60min_":{
+        "message":"1 giờ"
+    },
+    "NumOfBellsLabel":{
+        "message":"Số chuông thỉnh:"
+    },
+    "VolumeLabel":{
+        "message":"Âm lượng:"
+    },
+    "InviteBell":{
+        "message":"Thỉnh Chuông"
+    },
+    "BellIsOff":{
+        "message":"Chuông đã được tắt."
+    },
+    "BellOfMindfulnessPurpose":{
+        "message":"Trong thời gian bận rộn của cuộc sống, chúng ta hay để tâm trí của mình trôi theo nhiều tiêu khiển khác nhau. Chúng ta quên lãng bản thân của chúng ta, hơi thở của chúng ta, và tâm trí của chúng ta; chúng ta đánh quên sự kết hợp giữa thân và tâm. Để nhắc nhở chúng ta trở về sự kết hợp mầu nhiệm này, Chuông Chánh Niệm nhằm có mục đích đưa tâm trí của chúng ta trở lại với thân thể. Khi nghe tiếng chuông, chúng ta hã ngưng lại công việc làm và hít thở ba lần. Trong ba hơi thở ấy, chúng ta hãy ý tứ để mang tâm trí trở về với thân thể của chúng ta. Hãy vui lên và nhận diện sự liên kết nhiệm mầu của thân và tâm trong giây phút hiện tại."
+    },
+    "DesignCredit":{
+        "message":"Phụ kiện được tạo và hoàn thành bởi"
+    },
+    "TranslateCredit":{
+        "message":"Ngôn ngữ Tiếng Việt được dịch bởi Nguyễn San"
+    },
+    "InspirationTxt":{
+        "message":"Phụ kiện này được tạo theo ý và dẫn dắt của"
+    },
+    "InspirationCredit":{
+        "message":"Thiền sư Thích Nhất Hạnh"
+    },
+    "on": {
+        "message": "BẬT"
+    },
+    "off": {
+        "message": "TẮT"
+    },
+    "BellNotificationTitle":{
+        "message": "Thở đi bạn..."
+    },
+    "BellNotificationMsgIn":{
+        "message": "Vào  -  Tôi biết tôi đang thở vào"
+    },
+    "BellNotificationMsgOut":{
+        "message": "Ra  -  Tôi biết tôi đang thở ra."
+    },
+    "isBellEnabledSwitch_Tooltip":{
+        "message": "Click to turn bell off or on."
+    },
+    "RemainingTime_Tooltip":{
+        "message": "Thời gian còn lại cho đến lần thỉnh chuông tới."
+    },
+    "TimeBetweenBells_Tooltip":{
+        "message": "Khoản lời gian giữa các lần thỉnh chuông."
+    },
+    "NumOfBells_Tooltip":{
+        "message": "Số chuông trầm khi thỉnh."
+    },
+    "Volume_Tooltip":{
+        "message":"Âm lượng của các tiếng chuông [số từ 0 đến 100]."
+    },
+    "InviteBell_Tooltip":{
+        "message":"Nhấn để thỉnh chuông."
+    },
+    "bellUsePopupIcon":{
+        "message":"Xin nhấn vào hình icon của tiện ích để tuỳ chỉnh."
+    },
+    "DonationTextH4":{
+        "message":"Ưu thích tiện ích này?"
+    },
+    "DonationText":{
+        "message":"Xin đóng góp để ủng hộ để nối tiếp hoàn chỉnh tiện ích này bở một món quà tài chánh nhỏ."
+    },
+    "DonationButton":{
+        "message":"Đóng góp"
+    },
+    "DonationButton_Tooltip":{
+        "message":"Đóng góp để chúng tôi tiếp tục hoàn chỉnh tiện ích này."
+    }
+}
