@@ -1,144 +1,93 @@
-// This script is to load data or initialize data
-var isBellEnabled = true;
-var time_space_option = 2;
-var volume = 30;
+import { debug, getVar, setVar, getTimeSpace, resetTimer } from './utils.js';
 
-var timer = 0;
-var time_space = 3; //mins
-var timer_str = '';
-var volume;
-var numbOfBells = 3;
+let settings = {};
+let ringing;
 
-var HTMLver = getHtmlVer();	
-var isdebug = false;
-
-function invitebell(){
-	chrome.storage.local.set({'doRingBell':true}, function(){ if (isdebug) {console.log('Pop-Up: Set to invite bell');}});
+function inviteBell() {
+  chrome.runtime.sendMessage({'target': 'background', 'inviteBell' : true});
 }
 
-function changeTimeSpace(){
-	time_space_option = document.getElementById("timespace").selectedIndex;
-	chrome.storage.local.set({'timeSpaceOption': time_space_option}, function() {
-		if (isdebug) {console.log('Pop-Up: Saved time_space_option');}
-	});
-	chrome.storage.local.set({'timeSpaceChanged': true}, function() {
-		if (isdebug) {console.log('Pop-Up: Saved timeSpaceChanged');}
-	});
-
+async function changeTimeSpace(){
+  debug('changeTimeSpace');
+	let timeSpaceOption = document.getElementById("timespace").selectedIndex;
+	await setVar({'timeSpaceOption': timeSpaceOption});
+  resetTimer();
 }
-function changeNumbOfBells(){
-    numbOfBells = document.getElementById("numOfBells").selectedIndex;
-	chrome.storage.local.set({'numbOfBells': numbOfBells}, function() {
-		if (isdebug) {console.log('Pop-Up: Saved numbOfBells');}
-	});
-	chrome.storage.local.set({'numBellsChanged': true}, function() {
-		if (isdebug) {console.log('Pop-Up: Saved numBellsChanged');}
-	});
+function changeNumbOfBells() {
+  let numbOfBells = document.getElementById("numbOfBells").selectedIndex;
+  setVar({'numbOfBells': numbOfBells});
 }
-function updateTime(){
-
-	chrome.storage.local.get('TimeRemain', function(objs){
-		if(objs.TimeRemain != null){
-			timer = objs.TimeRemain;
-		}
-	});
+async function updateTime() {
+  const { timer } = await getVar(['timer']);
+  if (timer <= Date.now()) {
+    ringing = true;
+    inviteBell();
+  }
 	writeTime();
-	setTimeout(updateTime,100);
+	setTimeout(updateTime, 500);
 }
-function resetTime(){
-	timer = time_space*60;
-}
-function initTimer(){
+function initTimer() {
 	updateTime();
 }
-function writeTime(){
+async function writeTime() {
+  const { timer } = await getVar(['timer']);
+	const remaining = Math.ceil((ringing? await getTimeSpace() : timer - Date.now())/1000);
+
 	var timestr = '';
 	var tempstr = '';
-	timestr += ''+ Math.floor(timer/60);
-	if (timestr.length == 1) 
+	timestr += ''+ Math.floor(remaining/60);
+	if (timestr.length == 1)
 	timestr = '0' + timestr;
 	timestr += ':'
-	tempstr += timer%60;
+	tempstr += remaining%60;
 	if (tempstr.length == 1)
 	tempstr = '0' + tempstr;
 	timestr += tempstr;
-    $('#timeleft').each(function(){
-        this.value = timestr;
-    });
+  $('#timeleft').each(function(){
+    this.value = timestr;
+  });
 }
-function changeVolume(){
+async function changeVolume(){
 	document.getElementById("volume_txt").value = '' + document.getElementById("volume").value + '%';
-	volume = document.getElementById("volume").value;
-	chrome.storage.local.set({'volume': volume}, function() {
-		if (isdebug) {console.log('Pop-Up: Saved volume', volume);}
-	});
-	chrome.storage.local.set({'volumeChanged': true}, function() {
-		if (isdebug) {console.log('Pop-Up: Saved volumeChanged');}
-	});
+	let volume = document.getElementById("volume").value;
+  await setVar({'volume': volume});
+  chrome.runtime.sendMessage({'target': 'offscreen', 'setVolume': true});
 }
-function setBellEnable(){
-	isBellEnabled = document.getElementById("isBellEnabledSwitch").checked;
-	if (isdebug) {console.log("Background: isBellEnabled: " + isBellEnabled)};
-	if (isBellEnabled){
+function setBellEnable(event){
+	const isBellEnabled = document.getElementById("isBellEnabledSwitch").checked;
+	debug("Background: isBellEnabled: " + isBellEnabled);
+  if (event instanceof Event) {
+    setVar({'timer': 0});
+  }
+	if (isBellEnabled) {
         $('#onLayer').css('display','block');
         $('#offLayer').css('display','none');
-	}else{
+	} else {
         $('#onLayer').css('display','none');
         $('#offLayer').css('display','block');
 	}
-	chrome.storage.local.set({'isBellEnabled': isBellEnabled}, function() {
-		if (isdebug) {console.log('Background: Saved isBellEnabled');}
-	});
+  setVar({'isBellEnabled': isBellEnabled});
 }
-
-function getHtmlVer(){
-	var CName  = navigator.appCodeName;
-	var UAgent = navigator.userAgent;
-	var HtmlVer= 0.0;
-	// Remove start of string in UAgent upto CName or end of string if not found.
-	UAgent = UAgent.substring((UAgent+CName).toLowerCase().indexOf(CName.toLowerCase()));
-	// Remove CName from start of string. (Eg. '/5.0 (Windows; U...)
-	UAgent = UAgent.substring(CName.length);
-	// Remove any spaves or '/' from start of string.
-	while(UAgent.substring(0,1)==" " || UAgent.substring(0,1)=="/"){
-		UAgent = UAgent.substring(1);
-	}
-	// Remove the end of the string from first characrer that is not a number or point etc.
-	var pointer = 0;
-	while("0123456789.+-".indexOf((UAgent+"?").substring(pointer,pointer+1))>=0){
-		pointer = pointer+1;
-	}
-	UAgent = UAgent.substring(0,pointer);
-	
-	if(!isNaN(UAgent)){
-		if(UAgent>0){
-			HtmlVer=UAgent;
-		}
-	}
-	return HtmlVer;
-}
-
-
-
 function updateData(){
-	document.getElementById("timespace").selectedIndex = time_space_option;
-    document.getElementById("numOfBells").selectedIndex = numbOfBells;
-	document.getElementById("volume").value = volume;
+	document.getElementById("timespace").selectedIndex = settings.timeSpaceOption;
+  document.getElementById("numbOfBells").selectedIndex = settings.numbOfBells;
+	document.getElementById("volume").value = settings.volume;
 	document.getElementById("volume_txt").value = '' + document.getElementById("volume").value + '%';
-	document.getElementById("isBellEnabledSwitch").checked = isBellEnabled;
+	document.getElementById("isBellEnabledSwitch").checked = settings.isBellEnabled;
 	document.getElementById('volume').onchange = changeVolume;
 	document.getElementById('timespace').onchange = changeTimeSpace;
-    document.getElementById('numOfBells').onchange = changeNumbOfBells;
-	document.getElementById('invitebell').onclick = invitebell;
-	document.getElementById('thichNhatHanh').onclick = invitebell;
+  document.getElementById('numbOfBells').onchange = changeNumbOfBells;
+	document.getElementById('invitebell').onclick = inviteBell;
+	document.getElementById('thichNhatHanh').onclick = inviteBell;
 	document.getElementById("isBellEnabledSwitch").onclick = setBellEnable;
 	document.getElementById("offLayer").style.height = document.getElementById("onLayer").offsetHeight;
-	setBellEnable();	
-	if (isdebug) {console.log('UpdateNow');}
+	setBellEnable();
+	debug('UpdateNow');
 }
+
 function setLocalization() {
     var getI18nMsg = chrome.i18n.getMessage;
-    
+
     document.title = getI18nMsg('bellTitle');
     $('#bellTitle').each(function(){
         this.innerHTML=getI18nMsg('bellTitle');
@@ -172,7 +121,7 @@ function setLocalization() {
     $('#_60min_').each(function(){
         this.innerHTML=getI18nMsg('_60min_');
     });
-    $('#numOfBellsLabel').each(function(){
+    $('#numbOfBellsLabel').each(function(){
         this.innerHTML=getI18nMsg('NumOfBellsLabel');
         this.title = getI18nMsg('NumOfBells_Tooltip');
     });
@@ -204,7 +153,7 @@ function setLocalization() {
     $('#InspirationCredit').each(function(){
         this.innerHTML=getI18nMsg('InspirationCredit');
     });
-    
+
     $('#DonationTextH4').each(function(){
         this.innerHTML=getI18nMsg('DonationTextH4');
     });
@@ -238,68 +187,31 @@ function setLocalization() {
     });
     $('#invitebell').each(function(){
         this.title = getI18nMsg('InviteBell_Tooltip');
-    });    
+    });
     $('#numbOfBells').each(function(){
         this.title = getI18nMsg('NumOfBells_Tooltip');
     });
 }
-function loadData(){
+async function loadData(){
+  Object.assign(settings, await getVar());
+  chrome.runtime.sendMessage({'target': 'offscreen', 'getRinging': true});
+  updateData();
+  initTimer();
+}
 
-	var myvars = new Array();
-	myvars[0] = 'timeSpaceOption';
-	myvars[1] = 'volume';
-	myvars[2] = 'isBellEnabled';
-    myvars[3] = 'numbOfBells';
-	
-	chrome.storage.local.get(myvars, function(objs) {
-		if (objs.timeSpaceOption == null){
-			chrome.storage.local.set({'timeSpaceOption': time_space_option}, function() {
-				if (isdebug) {console.log('POPUP: Saved time_space_option');}
-			});
-		}
-		else{
-			time_space_option = objs.timeSpaceOption;
-			if (isdebug) {console.log('POPUP: timeSpaceOption',objs.timeSpaceOption);}
-		}
-		
-		if (objs.volume == null){
-			chrome.storage.local.set({'volume': volume}, function() {
-				if (isdebug) {console.log('POPUP: Saved volume');}
-			});
-		}
-		else{
-			volume = objs.volume;
-			if (isdebug) {console.log('POPUP: volume: ', objs.volume);}
-		}
-		
-		if (objs.isBellEnabled == null){
-			chrome.storage.local.set({'isBellEnabled': isBellEnabled}, function() {
-				if (isdebug) {console.log('POPUP: Saved isBellEnabled');}
-			});
-		}
-		else{
-			isBellEnabled = objs.isBellEnabled;
-			if (isdebug) {console.log('POPUP: isBellEnabled: ', isBellEnabled);}
-		}
-        if (objs.numbOfBells == null){
-			chrome.storage.local.set({'numbOfBells': numbOfBells}, function() {
-				if (isdebug) {console.log('POPUP: Saved numbOfBells');}
-			});
-		}
-		else{
-			numbOfBells = objs.numbOfBells;
-			if (isdebug) {console.log('POPUP: numbOfBells',objs.numbOfBells);}
-		}
-		updateData();
-		initTimer();
-	});
-
-
-}  
 document.addEventListener('DOMContentLoaded', function () {
-    setLocalization();
-	loadData();
+  setLocalization();
+  loadData();
 });
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.target !== '*' && message.target !== 'popup') return;
+
+  if (message.hasOwnProperty('ringing')) {
+    ringing = message.ringing;
+  }
+});
+
 $('.DonationHidingButton').each(function(){
     this.onclick = function(){
         $('.DonationLayer').css('height','100px');
