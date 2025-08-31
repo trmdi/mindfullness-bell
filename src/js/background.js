@@ -31,10 +31,10 @@ async function inviteBell() {
 }
 
 async function setBellEnabled(enabled) {
-  const alarm = await chrome.alarms.get('alarm');
+  const alarm = await chrome.alarms.get('inviteBell');
   if (enabled) {
     if (!alarm) {
-      chrome.alarms.create('alarm', {
+      chrome.alarms.create('inviteBell', {
         'delayInMinutes': 0,
         'periodInMinutes': 1
       });
@@ -43,7 +43,7 @@ async function setBellEnabled(enabled) {
     chrome.action.setIcon({'path': '../icons/icon48.png'});
   } else {
     if (alarm) {
-      chrome.alarms.clear('alarm', (wasCleared) => debug(`alarm cleared ${wasCleared}`));
+      chrome.alarms.clear('inviteBell', (wasCleared) => debug(`alarm cleared ${wasCleared}`));
     }
     chrome.action.setIcon({'path': '../icons/icon48-grayscale.png'});
   }
@@ -51,7 +51,6 @@ async function setBellEnabled(enabled) {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.target !== '*' && message.target !== 'background') return;
-  debug(sender, message);
 
   if (message.inviteBell) {
     inviteBell();
@@ -70,14 +69,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === 'bell') {
-    (async () => {
-      const { timer } = await getVar(['timer']);
-      if (Date.now() >= timer) {
-        inviteBell();
-      }
-    })();
-  }
+  (async () => {
+    const { timer } = await getVar(['timer']);
+    if (Date.now() >= timer) {
+      inviteBell();
+    }
+  })();
 });
 
 chrome.runtime.onInstalled.addListener(() => {
