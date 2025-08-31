@@ -17,7 +17,7 @@ function changeNumbOfBells() {
   let numbOfBells = document.getElementById("numbOfBells").selectedIndex;
   setVar({'numbOfBells': numbOfBells});
 }
-async function updateTime(event) {
+async function updateTime() {
   const { timer } = await getVar(['timer']);
 
   if (timer <= Date.now()) {
@@ -57,7 +57,8 @@ async function setBellEnabled(event) {
   const isBellEnabled = document.getElementById("isBellEnabledSwitch").checked;
   if (isBellEnabled) {
     if (event) await resetTimer();
-    updateTimer = setInterval(() => updateTime(event), 1000);
+    updateTime();
+    updateTimer = setInterval(() => updateTime(), 1000);
     $('#onLayer').css('display','block');
     $('#offLayer').css('display','none');
   } else {
@@ -65,7 +66,6 @@ async function setBellEnabled(event) {
     $('#onLayer').css('display','none');
     $('#offLayer').css('display','block');
   }
-  writeTime();
   await setVar({'isBellEnabled': isBellEnabled});
   chrome.runtime.sendMessage({'target': 'background', 'setBellEnabled': isBellEnabled});
 }
