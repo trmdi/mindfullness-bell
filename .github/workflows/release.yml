@@ -1,0 +1,92 @@
+name: Build crx
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install crx
+
+      - name: Write private key file
+        run: echo "${{ secrets.CRX_PRIVATE_KEY }}" > extension.pem
+
+      - name: Read version from manifest.json
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' manifest.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Pack extension to .crx
+        run: |
+          mkdir -p dist
+          npx crx pack ./ -o dist/extension.crx -p extension.pem
+
+      - name: Calculate Extension ID
+        id: get_extension_id
+        run: |
+          # Extract the public key from the PEM
+          openssl rsa -in extension.pem -pubout -outform DER -out pubkey.der 2>/dev/null
+
+          # Get SHA256 of the public key
+          HASH=$(openssl dgst -sha256 pubkey.der | awk '{ print $2 }')
+
+          # Take first 32 characters (16 bytes) and convert to a-p (Chrome base16)
+          EXT_ID=""
+          for (( i=0; i<32; i++ )); do
+          CHAR=${HASH:$i:1}
+          case $CHAR in
+          0) EXT_ID+="a" ;;
+          1) EXT_ID+="b" ;;
+          2) EXT_ID+="c" ;;
+          3) EXT_ID+="d" ;;
+          4) EXT_ID+="e" ;;
+          5) EXT_ID+="f" ;;
+          6) EXT_ID+="g" ;;
+          7) EXT_ID+="h" ;;
+          8) EXT_ID+="i" ;;
+          9) EXT_ID+="j" ;;
+          a) EXT_ID+="k" ;;
+          b) EXT_ID+="l" ;;
+          c) EXT_ID+="m" ;;
+          d) EXT_ID+="n" ;;
+          e) EXT_ID+="o" ;;
+          f) EXT_ID+="p" ;;
+          esac
+          done
+
+          echo "extension_id=$EXT_ID" >> $GITHUB_OUTPUT
+
+      - name: Create update.xml file
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          EXT_ID=${{ steps.get_extension_id.outputs.extension_id }}
+
+          cat > dist/update.xml <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <gupdate xmlns="http://www.google.com/update2/response" protocol="2.0">
+          <app appid="${EXT_ID}">
+          <updatecheck codebase="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/dist/extension.crx" version="${VERSION}" />
+          </app>
+          </gupdate>
+          EOF
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+
