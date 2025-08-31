@@ -24,13 +24,34 @@ function sendNotification() {
 }
 
 async function inviteBell() {
+  if (!(await getVar(['isBellEnabled'])).isBellEnabled) return;
+
   await ensureOffscreen();
   chrome.runtime.sendMessage({'target': 'offscreen', 'inviteBell': true});
 }
 
+async function setBellEnabled(enabled) {
+  const alarm = await chrome.alarms.get('alarm');
+  if (enabled) {
+    if (!alarm) {
+      chrome.alarms.create('alarm', {
+        'delayInMinutes': 0,
+        'periodInMinutes': 1
+      });
+      debug('create alarm');
+    }
+    chrome.action.setIcon({'path': '../icons/icon48.png'});
+  } else {
+    if (alarm) {
+      chrome.alarms.clear('alarm', (wasCleared) => debug(`alarm cleared ${wasCleared}`));
+    }
+    chrome.action.setIcon({'path': '../icons/icon48-grayscale.png'});
+  }
+}
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.target !== '*' && message.target !== 'background') return;
-  console.log(message);
+  debug(sender, message);
 
   if (message.inviteBell) {
     inviteBell();
@@ -43,6 +64,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     resetTimer();
   } else if (message.sendNotification) {
     sendNotification();
+  } else if (message.hasOwnProperty('setBellEnabled')) {
+    setBellEnabled(message.setBellEnabled);
   }
 });
 
@@ -51,7 +74,6 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     (async () => {
       const { timer } = await getVar(['timer']);
       if (Date.now() >= timer) {
-        console.log('alarm inviteBell()');
         inviteBell();
       }
     })();
@@ -59,8 +81,4 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.alarms.create('bell', {
-    'delayInMinutes': 0,
-    'periodInMinutes': 1
-  });
 });

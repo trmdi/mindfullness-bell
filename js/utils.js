@@ -1,4 +1,4 @@
-let DEBUG = false;
+let DEBUG = true;
 const DEFAULTS = {
   'isBellEnabled': true,
   'timeSpaceOption': 2,
@@ -7,9 +7,9 @@ const DEFAULTS = {
   'timer': 0 // this is the time remaining
 };
 
-export function debug(str) {
+export function debug(...args) {
   if (DEBUG) {
-    console.log(str);
+    console.log(args);
   }
 }
 
@@ -27,8 +27,7 @@ export async function getVar(query) {
 }
 
 export async function setVar(obj) {
-  chrome.storage.local.set(obj);
-  debug(`setVar ${JSON.stringify(obj)}`);
+  await chrome.storage.local.set(obj);
 }
 
 export async function getTimeSpace() {
@@ -42,5 +41,5 @@ async function getNextTimer() {
 }
 
 export async function resetTimer() {
-    setVar({'timer': await getNextTimer()});
+    await setVar({'timer': await getNextTimer()});
 }

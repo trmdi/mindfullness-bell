@@ -17,18 +17,16 @@ function changeNumbOfBells() {
   let numbOfBells = document.getElementById("numbOfBells").selectedIndex;
   setVar({'numbOfBells': numbOfBells});
 }
-async function updateTime() {
+async function updateTime(event) {
   const { timer } = await getVar(['timer']);
+
   if (timer <= Date.now()) {
     ringing = true;
     inviteBell();
   }
 	writeTime();
-	setTimeout(updateTime, 500);
 }
-function initTimer() {
-	updateTime();
-}
+
 async function writeTime() {
   const { timer } = await getVar(['timer']);
 	const remaining = Math.ceil((ringing? await getTimeSpace() : timer - Date.now())/1000);
@@ -53,36 +51,40 @@ async function changeVolume(){
   await setVar({'volume': volume});
   chrome.runtime.sendMessage({'target': 'offscreen', 'setVolume': true});
 }
-function setBellEnable(event){
-	const isBellEnabled = document.getElementById("isBellEnabledSwitch").checked;
-	debug("Background: isBellEnabled: " + isBellEnabled);
-  if (event instanceof Event) {
-    setVar({'timer': 0});
+
+let updateTimer;
+async function setBellEnabled(event) {
+  const isBellEnabled = document.getElementById("isBellEnabledSwitch").checked;
+  if (isBellEnabled) {
+    if (event) await resetTimer();
+    updateTimer = setInterval(() => updateTime(event), 1000);
+    $('#onLayer').css('display','block');
+    $('#offLayer').css('display','none');
+  } else {
+    clearInterval(updateTimer);
+    $('#onLayer').css('display','none');
+    $('#offLayer').css('display','block');
   }
-	if (isBellEnabled) {
-        $('#onLayer').css('display','block');
-        $('#offLayer').css('display','none');
-	} else {
-        $('#onLayer').css('display','none');
-        $('#offLayer').css('display','block');
-	}
-  setVar({'isBellEnabled': isBellEnabled});
+  writeTime();
+  await setVar({'isBellEnabled': isBellEnabled});
+  chrome.runtime.sendMessage({'target': 'background', 'setBellEnabled': isBellEnabled});
 }
-function updateData(){
-	document.getElementById("timespace").selectedIndex = settings.timeSpaceOption;
+
+function updateData() {
+  document.getElementById("timespace").selectedIndex = settings.timeSpaceOption;
   document.getElementById("numbOfBells").selectedIndex = settings.numbOfBells;
-	document.getElementById("volume").value = settings.volume;
-	document.getElementById("volume_txt").value = '' + document.getElementById("volume").value + '%';
-	document.getElementById("isBellEnabledSwitch").checked = settings.isBellEnabled;
-	document.getElementById('volume').onchange = changeVolume;
-	document.getElementById('timespace').onchange = changeTimeSpace;
+  document.getElementById("volume").value = settings.volume;
+  document.getElementById("volume_txt").value = '' + document.getElementById("volume").value + '%';
+  document.getElementById("isBellEnabledSwitch").checked = settings.isBellEnabled;
+  document.getElementById('volume').onchange = changeVolume;
+  document.getElementById('timespace').onchange = changeTimeSpace;
   document.getElementById('numbOfBells').onchange = changeNumbOfBells;
-	document.getElementById('invitebell').onclick = inviteBell;
-	document.getElementById('thichNhatHanh').onclick = inviteBell;
-	document.getElementById("isBellEnabledSwitch").onclick = setBellEnable;
-	document.getElementById("offLayer").style.height = document.getElementById("onLayer").offsetHeight;
-	setBellEnable();
-	debug('UpdateNow');
+  document.getElementById('invitebell').onclick = inviteBell;
+  document.getElementById('thichNhatHanh').onclick = inviteBell;
+  document.getElementById("isBellEnabledSwitch").onclick = setBellEnabled;
+  document.getElementById("offLayer").style.height = document.getElementById("onLayer").offsetHeight;
+  setBellEnabled();
+  debug('UpdateNow');
 }
 
 function setLocalization() {
@@ -196,7 +198,6 @@ async function loadData(){
   Object.assign(settings, await getVar());
   chrome.runtime.sendMessage({'target': 'offscreen', 'getRinging': true});
   updateData();
-  initTimer();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
