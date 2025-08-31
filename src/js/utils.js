@@ -9,7 +9,7 @@ const DEFAULTS = {
 
 export function debug(...args) {
   if (DEBUG) {
-    console.log(args);
+    console.log(...args);
   }
 }
 
@@ -41,5 +41,5 @@ async function getNextTimer() {
 }
 
 export async function resetTimer() {
-    await setVar({'timer': await getNextTimer()});
+  await setVar({'timer': await getNextTimer()});
 }

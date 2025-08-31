@@ -1,3 +1,5 @@
+import { debug } from './utils.js'
+
 const nhatChuong = document.getElementById('nhatchuong');
 const thinhChuong = document.getElementById('thinhchuong');
 
@@ -73,6 +75,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       setVolume((await getVar(['volume'])).volume);
     })();
   } else if (message.hasOwnProperty('getRinging')) {
-    chrome.runtime.sendMessage({'target': '*', 'ringing': ringing});
+    sendResponse({'ringing': ringing});
   }
 });

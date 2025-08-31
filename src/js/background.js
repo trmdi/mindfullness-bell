@@ -31,6 +31,12 @@ async function inviteBell() {
 }
 
 async function setBellEnabled(enabled) {
+  if (enabled === (await getVar(['isBellEnabled'])).isBellEnabled) {
+    return;
+  }
+
+  setVar({'isBellEnabled': enabled});
+
   const alarm = await chrome.alarms.get('inviteBell');
   if (enabled) {
     if (!alarm) {
@@ -59,8 +65,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       sendResponse(await getVar(message.getVar));
     })();
     return true;
-  } else if (message.hasOwnProperty('ringing') && message.ringing === false) {
-    resetTimer();
+  } else if (message.ringing !== undefined) {
+    if (!message.ringing) {
+      resetTimer();
+    }
   } else if (message.sendNotification) {
     sendNotification();
   } else if (message.hasOwnProperty('setBellEnabled')) {

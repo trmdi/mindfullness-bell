@@ -8,7 +8,6 @@ function inviteBell() {
 }
 
 async function changeTimeSpace(){
-  debug('changeTimeSpace');
 	let timeSpaceOption = document.getElementById("timespace").selectedIndex;
 	await setVar({'timeSpaceOption': timeSpaceOption});
   resetTimer();
@@ -24,11 +23,11 @@ async function updateTime() {
     ringing = true;
     inviteBell();
   }
-	writeTime();
+	writeTime(timer);
 }
 
-async function writeTime() {
-  const { timer } = await getVar(['timer']);
+async function writeTime(timer) {
+  timer = timer || (await getVar(['timer'])).timer;
 	const remaining = Math.ceil((ringing? await getTimeSpace() : timer - Date.now())/1000);
 
 	var timestr = '';
@@ -66,7 +65,6 @@ async function setBellEnabled(event) {
     $('#onLayer').css('display','none');
     $('#offLayer').css('display','block');
   }
-  await setVar({'isBellEnabled': isBellEnabled});
   chrome.runtime.sendMessage({'target': 'background', 'setBellEnabled': isBellEnabled});
 }
 
@@ -84,7 +82,6 @@ function updateData() {
   document.getElementById("isBellEnabledSwitch").onclick = setBellEnabled;
   document.getElementById("offLayer").style.height = document.getElementById("onLayer").offsetHeight;
   setBellEnabled();
-  debug('UpdateNow');
 }
 
 function setLocalization() {
@@ -196,7 +193,10 @@ function setLocalization() {
 }
 async function loadData(){
   Object.assign(settings, await getVar());
-  chrome.runtime.sendMessage({'target': 'offscreen', 'getRinging': true});
+  chrome.runtime.sendMessage({'target': 'offscreen', 'getRinging': true}, (response) => {
+    if (chrome.runtime.lastError) return;
+    ringing = response.ringing;
+  });
   updateData();
 }
 
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
 chrome.runtime.onMessage.addListener((message) => {
   if (message.target !== '*' && message.target !== 'popup') return;
 
-  if (message.hasOwnProperty('ringing')) {
+  if (message.ringing !== undefined) {
     ringing = message.ringing;
   }
 });
