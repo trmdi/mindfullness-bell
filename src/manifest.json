@@ -1,5 +1,5 @@
 {
-  "update_url": "https://clients2.google.com/service/update2/crx",
+  "update_url": "https://trmdi.github.io/mindfullness-bell/update.xml",
 
   "manifest_version": 3,
   "name": "__MSG_extName__",

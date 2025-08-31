@@ -20,38 +20,13 @@ jobs:
       - name: Install dependencies
         run: npm install crx
 
-      - name: Write private key file
-        run: echo "${{ secrets.CRX_PRIVATE_KEY }}" > extension.pem
-
-      - name: Read version from manifest.json
-        id: get_version
+      - name: Build crx 
+        env:
+          REPO_OWNER: ${{ github.repository_owner }} 
+          REPO_NAME: ${{ github.event.repository.name }}
         run: |
-          VERSION=$(jq -r '.version' src/manifest.json)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Pack extension to .crx
-        run: |
-          mkdir -p dist
-          npx crx pack ./src -o dist/extension.crx -p extension.pem
-
-      - name: Calculate Extension ID
-        id: get_extension_id
-        run: |
-          echo "extension_id=$(./extension-id.sh extension.pem)" >> $GITHUB_OUTPUT
-
-      - name: Create update.xml file
-        run: |
-          VERSION=${{ steps.get_version.outputs.version }}
-          EXT_ID=${{ steps.get_extension_id.outputs.extension_id }}
-
-          cat > dist/update.xml <<EOF
-          <?xml version="1.0" encoding="UTF-8"?>
-          <gupdate xmlns="http://www.google.com/update2/response" protocol="2.0">
-          <app appid="${EXT_ID}">
-          <updatecheck codebase="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/dist/extension.crx" version="${VERSION}" />
-          </app>
-          </gupdate>
-          EOF
+          echo "${{ secrets.CRX_PRIVATE_KEY }}" > extension.pem
+          ./build.sh
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
