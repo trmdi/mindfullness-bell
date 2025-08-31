@@ -47,13 +47,13 @@ done
 rm -f pubkey.der
 
 # generate update.xml file
-CODEBASE="https://${REPO_OWNER}.github.io/${REPO_NAME}/dist/extension.crx"
+CODEBASE="https://${REPO_OWNER}.github.io/${REPO_NAME}/extension.crx"
 
 cat > dist/update.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <gupdate xmlns="http://www.google.com/update2/response" protocol="2.0">
   <app appid="${EXT_ID}">
-    <updatecheck codebase="${CODE_BASE}" version="${VERSION}" />
+    <updatecheck codebase="${CODEBASE}" version="${VERSION}" />
   </app>
 </gupdate>
 EOF
