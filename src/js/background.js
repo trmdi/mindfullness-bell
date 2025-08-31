@@ -12,7 +12,7 @@ async function ensureOffscreen() {
 
 function sendNotification() {
   const getMsg = chrome.i18n.getMessage;
-  const id = 'MindfullnessBell';
+  const id = 'MindfulnessBell';
   chrome.notifications.clear(id);
   chrome.notifications.create(id, {
     'type': 'basic',

@@ -4,7 +4,7 @@ Windows Registry Editor Version 5.00
 "1"="fogcigieiihkgahpgomloplgbokhmhpg"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist]
-"1"="fogcigieiihkgahpgomloplgbokhmhpg;https://trmdi.github.io/mindfullness-bell/update.xml"
+"1"="fogcigieiihkgahpgomloplgbokhmhpg;https://trmdi.github.io/mindfulness-bell/update.xml"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallSources]
 "1"="https://trmdi.github.io/*"

@@ -1,12 +1,12 @@
 {
-  "update_url": "https://trmdi.github.io/mindfullness-bell/update.xml",
+  "update_url": "https://trmdi.github.io/mindfulness-bell/update.xml",
 
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "version": "3.1.2.4",
   "description": "__MSG_extDesc__",
   "author": "__MSG_extAuthor__",
-  "homepage_url": "https://github.com/trmdi/mindfullness-bell",
+  "homepage_url": "https://github.com/trmdi/mindfulness-bell",
   "default_locale": "en",
   "background": {
     "service_worker": "js/background.js",
