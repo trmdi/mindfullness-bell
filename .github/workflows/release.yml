@@ -26,48 +26,18 @@ jobs:
       - name: Read version from manifest.json
         id: get_version
         run: |
-          VERSION=$(jq -r '.version' manifest.json)
+          VERSION=$(jq -r '.version' src/manifest.json)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Pack extension to .crx
         run: |
           mkdir -p dist
-          npx crx pack ./ -o dist/extension.crx -p extension.pem
+          npx crx pack ./src -o dist/extension.crx -p extension.pem
 
       - name: Calculate Extension ID
         id: get_extension_id
         run: |
-          # Extract the public key from the PEM
-          openssl rsa -in extension.pem -pubout -outform DER -out pubkey.der 2>/dev/null
-
-          # Get SHA256 of the public key
-          HASH=$(openssl dgst -sha256 pubkey.der | awk '{ print $2 }')
-
-          # Take first 32 characters (16 bytes) and convert to a-p (Chrome base16)
-          EXT_ID=""
-          for (( i=0; i<32; i++ )); do
-          CHAR=${HASH:$i:1}
-          case $CHAR in
-          0) EXT_ID+="a" ;;
-          1) EXT_ID+="b" ;;
-          2) EXT_ID+="c" ;;
-          3) EXT_ID+="d" ;;
-          4) EXT_ID+="e" ;;
-          5) EXT_ID+="f" ;;
-          6) EXT_ID+="g" ;;
-          7) EXT_ID+="h" ;;
-          8) EXT_ID+="i" ;;
-          9) EXT_ID+="j" ;;
-          a) EXT_ID+="k" ;;
-          b) EXT_ID+="l" ;;
-          c) EXT_ID+="m" ;;
-          d) EXT_ID+="n" ;;
-          e) EXT_ID+="o" ;;
-          f) EXT_ID+="p" ;;
-          esac
-          done
-
-          echo "extension_id=$EXT_ID" >> $GITHUB_OUTPUT
+          echo "extension_id=$(./extension-id.sh extension.pem)" >> $GITHUB_OUTPUT
 
       - name: Create update.xml file
         run: |
