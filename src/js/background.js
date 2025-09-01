@@ -1,4 +1,4 @@
-import { getVar, resetTimer, debug } from './utils.js';
+import { getVar, setVar, resetTimer, debug } from './utils.js';
 
 async function ensureOffscreen() {
   if (await chrome.offscreen.hasDocument()) return;
