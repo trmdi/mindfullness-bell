@@ -45,6 +45,10 @@ jobs:
           echo "${{ secrets.CRX_PRIVATE_KEY }}" > extension.pem
           ./build.sh
 
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
