@@ -18,7 +18,7 @@ First, you need to install a policy file in order to enable installing extension
 
 ### For Linux:
 
-1. Download [chrome-policy.json](chrome-policy.json).
+1. Download [chrome-policy.json](./policy/chrome-policy.json).
 2. Copy it to `/etc/opt/chrome/policies/managed/`.
 
 ## 2. Restart Chrome
