@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge\ExtensionInstallAllowlist]
+"1"="fogcigieiihkgahpgomloplgbokhmhpg"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge\ExtensionInstallForcelist]
+"1"="fogcigieiihkgahpgomloplgbokhmhpg;https://trmdi.github.io/mindfulness-bell/update.xml"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge\ExtensionInstallSources]
+"1"="https://trmdi.github.io/*"
+"2"="https://github.com/trmdi/*"
