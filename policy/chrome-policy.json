@@ -2,9 +2,6 @@
 	"ExtensionInstallAllowlist": [
 		"fogcigieiihkgahpgomloplgbokhmhpg"
 	],
-	"ExtensionInstallForcelist": [
-		"fogcigieiihkgahpgomloplgbokhmhpg;https://trmdi.github.io/mindfulness-bell/update.xml"
-	],
 	"ExtensionInstallSources": [
 		"https://trmdi.github.io/*",
 		"https://github.com/trmdi/*"
