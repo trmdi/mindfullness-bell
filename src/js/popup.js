@@ -23,11 +23,11 @@ async function updateTime() {
     ringing = true;
     inviteBell();
   }
-	writeTime(timer);
+	writeTime();
 }
 
-async function writeTime(timer) {
-  timer = timer || (await getVar(['timer'])).timer;
+async function writeTime() {
+  const { timer } = await getVar(['timer']);
 	const remaining = Math.ceil((ringing? await getTimeSpace() : timer - Date.now())/1000);
 
 	var timestr = '';
