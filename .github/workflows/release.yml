@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: npm install crx
 
-      - name: Build crx 
+      - name: Build
         env:
           REPO_OWNER: ${{ github.repository_owner }} 
           REPO_NAME: ${{ github.event.repository.name }}
@@ -46,10 +46,21 @@ jobs:
           echo "${{ secrets.CRX_PRIVATE_KEY }}" > extension.pem
           ./build.sh
 
-      - name: Publish extension.crx and update.xml
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: gh-pages
+          path: ./dist
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
