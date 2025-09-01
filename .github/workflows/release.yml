@@ -14,8 +14,9 @@ jobs:
       - name: Should build?
         id: should_build
         run: |
-          echo "COMMIT_MSG=${{ github.event.head_commit.message }}"
-          if echo "${{ github.event.head_commit.message }}" | grep -iq "^bump version"; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          elif echo "${{ github.event.head_commit.message }}" | grep -iq "^bump version"; then
             echo "should_run=true" >> $GITHUB_OUTPUT
           else
             echo "should_run=false" >> $GITHUB_OUTPUT
