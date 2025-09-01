@@ -82,6 +82,8 @@ function updateData() {
   document.getElementById("isBellEnabledSwitch").onclick = setBellEnabled;
   document.getElementById("offLayer").style.height = document.getElementById("onLayer").offsetHeight;
   setBellEnabled();
+  // animation only after loaded
+  document.body.classList.add("loaded");
 }
 
 function setLocalization() {
