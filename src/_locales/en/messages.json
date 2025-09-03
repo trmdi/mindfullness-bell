@@ -103,17 +103,5 @@
     },
     "bellUsePopupIcon":{
         "message":"Please click on the Bell of Mindfulness icon to set your options."
-    },
-    "DonationTextH4":{
-        "message":"Enjoy this add-on?"
-    },
-    "DonationText":{
-        "message":"Please help support its continued development by making a small contribution."
-    },
-    "DonationButton":{
-        "message":"Contribute"
-    },
-    "DonationButton_Tooltip":{
-        "message":"Contribute to the development of Bell of Mindfulness"
     }
 }

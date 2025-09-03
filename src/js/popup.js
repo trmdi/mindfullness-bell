@@ -155,16 +155,6 @@ function setLocalization() {
         this.innerHTML=getI18nMsg('InspirationCredit');
     });
 
-    $('#DonationTextH4').each(function(){
-        this.innerHTML=getI18nMsg('DonationTextH4');
-    });
-    $('#DonationText').each(function(){
-        this.innerHTML=getI18nMsg('DonationText');
-    });
-    $('#DonationButton').each(function(){
-        this.value=getI18nMsg('DonationButton');
-        this.title=getI18nMsg('DonationButton_Tooltip');
-    });
     $('#isBellEnabledSwitch').each(function(){
         this.title = getI18nMsg('isBellEnabledSwitch_Tooltip');
         $(this).children().each(function(){
@@ -213,15 +203,4 @@ chrome.runtime.onMessage.addListener((message) => {
   if (message.ringing !== undefined) {
     ringing = message.ringing;
   }
-});
-
-$('.DonationHidingButton').each(function(){
-    this.onclick = function(){
-        $('.DonationLayer').css('height','100px');
-        $('.DonationLayer').css('min-height','100px');
-        $('.DonationLayer').css('max-height','100px');
-        setTimeout(function(){
-            $(document.body).scrollTop($('#DonationButton').offset().top);
-        },700);
-    };
 });

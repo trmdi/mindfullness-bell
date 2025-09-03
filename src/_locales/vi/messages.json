@@ -103,17 +103,5 @@
     },
     "bellUsePopupIcon":{
         "message":"Xin nhấn vào hình icon của tiện ích để tuỳ chỉnh."
-    },
-    "DonationTextH4":{
-        "message":"Ưu thích tiện ích này?"
-    },
-    "DonationText":{
-        "message":"Xin đóng góp để ủng hộ để nối tiếp hoàn chỉnh tiện ích này bở một món quà tài chánh nhỏ."
-    },
-    "DonationButton":{
-        "message":"Đóng góp"
-    },
-    "DonationButton_Tooltip":{
-        "message":"Đóng góp để chúng tôi tiếp tục hoàn chỉnh tiện ích này."
     }
 }

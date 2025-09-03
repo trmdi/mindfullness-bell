@@ -103,7 +103,7 @@ input.timeleft {
 	text-align: center;
 	background-color:rgb(245, 245, 220);
 }
-input.invitebell,input.donate {
+input.invitebell {
 	font-size:14px;
 	font-weight:bold;
 	color: #000000;
@@ -226,45 +226,4 @@ table.BellTable td {
 .loaded .offLayer{
 	-moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
   -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
-}
-.DonationLayer{
-    width: 490px;
-/*    height: 100%;*/
-    display: block;
-    text-align: left;
-    position: relative;
-    font-size: 0px;
-    vertical-align: middle;
-    height: 20px;
-    overflow: hidden;
-    -webkit-transition-property: all;
-    -webkit-transition-duration: 0.5s;
-    -webkit-transition-timing-function: linear;
-    -webkit-transition-delay: 0s;
-    transition-property: all;
-    transition-duration: 0.5s;
-    transition-timing-function: linear;
-    transition-delay: 0s;
-}
-.DonationLayer table{
-    background-color:#fcc;
-    margin:0px;
-}
-.DonationTextContainer{
-    text-align: left;
-    vertical-align: top;
-    width: 300px;
-}
-.DonationButtonDiv{
-/*    width: 100px;*/
-    vertical-align: middle;
-    text-align: right;
-}
-.DonationHidingButton{
-    display: block;
-    position: relative;
-    width:20px;
-    height: 20px;
-    background-image: url('images/plus.gif');
-    background-size: contain;
 }
