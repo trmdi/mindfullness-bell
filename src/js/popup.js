@@ -139,11 +139,8 @@ function setLocalization() {
     $('#BellOfMindfulnessPurpose').each(function(){
         this.innerHTML=getI18nMsg('BellOfMindfulnessPurpose');
     });
-    $('#DesignCredit').each(function(){
-        this.innerHTML=getI18nMsg('DesignCredit');
-    });
-    $('#ExtAuthor').each(function(){
-        this.innerHTML=getI18nMsg('extAuthor');
+    $('#Feedback').each(function(){
+        this.innerHTML=getI18nMsg('Feedback');
     });
     $('#TranslateCredit').each(function(){
         this.innerHTML=getI18nMsg('TranslateCredit');
