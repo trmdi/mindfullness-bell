@@ -3,6 +3,8 @@ import { debug } from './utils.js'
 const nhatChuong = document.getElementById('nhatchuong');
 const thinhChuong = document.getElementById('thinhchuong');
 
+let stopRequest = null;
+
 async function getVar(request) {
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage({'target': 'background', 'getVar': request}, (response) => {
@@ -26,20 +28,29 @@ function sendNotification() {
 }
 
 async function inviteBell(type) {
+  debug('inviteBell', type);
   const audio = {
-    'nhatchuong': nhatChuong,
-    'thinhchuong': thinhChuong
-  };
+    'nhatChuong': nhatChuong,
+    'thinhChuong': thinhChuong
+  }[type];
 
-  audio[type].pause();
-  audio[type].currentTime = 0;
-
-  audio[type].play();
+  await audio.play();
 
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
+    function cleanUp() {
+      audio.removeEventListener('ended', onEnded);
+      audio.removeEventListener('pause', onEnded);
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    function onEnded() {
+      cleanUp();
       resolve();
-    }, audio[type].duration * 1000);
+      debug(type, 'audio ended');
+    }
+
+    audio.addEventListener('ended', onEnded);
+    audio.addEventListener('pause', onEnded);
   });
 }
 
@@ -58,11 +69,16 @@ async function inviteBells() {
   setVolume(volume);
 
   setRinging(true);
-  await inviteBell('nhatchuong');
+  await inviteBell('nhatChuong');
   for (let i = 0; i < numbOfBells; i++) {
-    await inviteBell('thinhchuong');
+    if (stopRequest) {
+      break;
+    }
+    await inviteBell('thinhChuong');
   }
   setRinging(false);
+  stopRequest = null;
+  debug('inviteBells ended');
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -76,5 +92,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     })();
   } else if (message.hasOwnProperty('getRinging')) {
     sendResponse({'ringing': ringing});
+  } else if (message.stopBell) {
+    stopRequest = true;
+    nhatChuong.pause();
+    thinhChuong.pause();
   }
 });

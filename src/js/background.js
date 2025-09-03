@@ -10,11 +10,11 @@ async function ensureOffscreen() {
   });
 }
 
+const notificationId = 'MindfulnessBell';
 function sendNotification() {
   const getMsg = chrome.i18n.getMessage;
-  const id = 'MindfulnessBell';
-  chrome.notifications.clear(id);
-  chrome.notifications.create(id, {
+  chrome.notifications.clear(notificationId);
+  chrome.notifications.create(notificationId, {
     'type': 'basic',
     'iconUrl': '../icons/icon.png',
     'title': getMsg('BellNotificationTitle'),
@@ -48,6 +48,8 @@ async function setBellEnabled(enabled) {
     }
     chrome.action.setIcon({'path': '../icons/icon48.png'});
   } else {
+    chrome.runtime.sendMessage({'target': 'offscreen', 'stopBell': true});
+    chrome.notifications.clear(notificationId);
     if (alarm) {
       chrome.alarms.clear('inviteBell', (wasCleared) => debug(`alarm cleared ${wasCleared}`));
     }
@@ -83,7 +85,4 @@ chrome.alarms.onAlarm.addListener((alarm) => {
       inviteBell();
     }
   })();
-});
-
-chrome.runtime.onInstalled.addListener(() => {
 });

@@ -22,7 +22,7 @@ export async function getVar(query) {
     }
   }
 
-  debug(`getVar ${query} -> ${JSON.stringify(vars)}`);
+  //debug(`getVar ${query} -> ${JSON.stringify(vars)}`);
   return vars;
 }
 
